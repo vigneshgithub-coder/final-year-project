@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    MedEasy
+  </title>
+  <!-- <link href="css\material-dashboard.css" rel="stylesheet">
+   <link href="css\orders.css" rel="stylesheet"> -->
+
+   <link href="/stylesheets/css/material-dashboard.css" rel="stylesheet">
+   <link href="/stylesheets/css/orders.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body class="dark-edition">
+
+  <script src="/javascripts/search.js"></script>
+
+  <div class="wrapper ">
+    <% include ../partials/admin-sidebar %>
+
+    <div class="main-panel">
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="row ">
+              <a class="navbar-brand" href="javascript:void(0)">Pending Orders List</a>
+            </div>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+        </div>
+       </nav>
+      <!-- End Navbar -->
+      
+     <div class="content">
+      <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4">
+            <div style="margin-top: 10px;text-align: center;" id="success" class="alert alert-success <% if(noMessages){ %> d-none <% } %>" >
+                <%= successMsg %>
+            </div>
+        </div>
+      </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+               <div class="row">
+                  <div class="col-md-4">    
+                    <span >
+                      <div class="input-group ">
+                          <input class=" form-control searchh"type="text" id="myInput1" style="background-color:transparent;border:0;border-bottom:purple;"onkeyup="pending_orders_search(this.id)" placeholder="  Search..">
+                      </div>
+                    </span>      
+                  </div>
+                  <div class="col-md-5"></div>
+            </div>
+          
+          <br>
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title ">Pending Orders</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive table-striped" style="text-align: center;" >
+                <table class="table" id="pending_orders" > 
+                  <thead class=" text-primary">
+                    <th>
+                      Sr No.
+                    </th>
+                    <th>
+                      Order ID
+                    </th>
+                    <th>
+                      User ID
+                    <th>  
+                      User name
+                    </th>
+                      <th>
+                      Purchase Date
+                    </th>
+                    <th>
+                      Total Price
+                    </th>
+                    <th>
+                    Payment id
+                    </th>
+                    <th>
+                    Payment Mode
+                    </th>
+                      <th>
+                    Confirmation 
+                    <!-- order confirmed -->
+                    </th>
+                    <th>
+                      Deliverd
+                    </th>
+                  </thead>
+                  <tbody>
+                    <% var sr2 = 0; %>
+                    <% orders.forEach(function(order){ %>
+                      <% sr2 = sr2 + 1; %>
+                      <tr>
+                        <td id="sr-no">
+                          <%= sr2 %>
+                        </td>
+                        <td id="order_id">
+                          <a  class="idd" href="/admin/order-details/<%= order._id %>">
+                          <%= order._id %>
+                          </a>
+                        </td>
+                        <td id="user_id">
+                          <%= order.user %>
+                        </td>                    
+                        <td id="user_name">
+                          <%= order.name %>
+                        </td>
+                        <td id="purchase_date">
+                          <% var date = order.purchaseDate %>
+                          <%= date.getDate() %>/<%= date.getMonth() + 1 %>/<%= date.getFullYear() %>
+                        </td>
+                        <td class="text-primary" id="total_price">
+                          ₹<%= order.cart.totalPrice %>
+                        </td>
+                        <td id="payment_id">
+                            <% if(order.paymentId) { %>
+                                <%= order.paymentId %>
+                              <% } else { %>
+                                -
+                              <% } %>
+                        </td>
+                        <td id="payment_mode">
+                          <%= order.paymentMode %>
+                        </td>
+
+
+
+                        <% if(order.isConfirmed && !order.isDelivered){ %>
+                            <td>
+                                <form action="/admin/orders/status/<%= order._id %>/confirmed?_method=PUT" method="POST">
+                                    <button id="Btn1" class="btnn" disabled><i class="fa fa-check" ></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/admin/orders/status/<%= order._id %>/delivered?_method=PUT" method="POST">
+                                    <button id="Btn2" class="btnn" ><i class="fa fa-truck" ></i></button>
+                                </form>
+                            </td>
+                        <% } else if(!order.isConfirmed && !order.isDelivered){ %>
+                            <td>
+                                <form action="/admin/orders/status/<%= order._id %>/confirmed?_method=PUT" method="POST">
+                                    <button id="Btn1" class="btnn" ><i class="fa fa-check" ></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/admin/orders/status/<%= order._id %>/delivered?_method=PUT" method="POST">
+                                    <button id="Btn2" class="btnn" disabled ><i class="fa fa-truck" ></i></button>
+                                </form>
+                            </td>
+                        <% } %>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+
+ <td id="check">
+<input type="checkbox" id="checked" class="checkmark">
+</td> 
+<script type="text/javascript">
+/*
+FOR BUTTONS CONFIRMING AND DELIVERED
+*/
+
+
+  $(document).ready(function(){
+    $(".btn-group .btn").click(function(){
+      var inputValue = $(this).find("input").val();
+      if(inputValue != 'all'){
+        var target = $('table tr[data-status="' + inputValue + '"]');
+        $("table tbody tr").not(target).hide();
+        target.fadeIn();
+      } else {
+        $("table tbody tr").fadeIn();
+      }
+    });
+    // Changing the class of status label to support Bootstrap 4
+      var bs = $.fn.tooltip.Constructor.VERSION;
+      var str = bs.split(".");
+      if(str[0] == 4){
+          $(".label").each(function(){
+            var classStr = $(this).attr("class");
+              var newClassStr = classStr.replace(/label/g, "badge");
+              $(this).removeAttr("class").addClass(newClassStr);
+          });
+      }
+  });
+  </script>
+   <script>
+    $(document).ready(function() {
+  
+      $('#pending_orders tr').click(function() {
+          var href = $(this).find("a").attr("href");
+          if(href) {
+              window.location = href;
+          }
+      });
+  
+  });
+  </script>
+    <% include ../partials/admin-footer %>
+
+

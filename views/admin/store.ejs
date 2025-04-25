@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>
+    MedEasy
+  </title>
+  <link href="/stylesheets/css/store.css" rel="stylesheet">
+  <link href="/stylesheets/css/material-dashboard.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+</head>
+
+<body class="dark-edition">
+  <div class="wrapper ">
+    <% include ../partials/admin-sidebar %>
+        
+    <div class="main-panel">
+     <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <div class="row ">
+            <a class="navbar-brand" href="javascript:void(0)">Store</a>
+          </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+      </div>
+     </nav>
+    <!-- End Navbar -->
+      <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4">
+            <div style="margin-top: 40px;text-align: center;" id="success" class="alert alert-success <% if(noMessages){ %> d-none <% } %>" >
+                <%= successMsg %>
+            </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+                <div class="col-md-12">
+                  <div class="container" style="min-width:100%">
+                     <div class="row">
+                       <div class="col-md-6">
+                          <span >
+                            <div class="input-group ">
+                               <input class=" form-control searchh" type="text" id="myInput" onkeyup="myFunction()" placeholder="  Search.."ng-blur="$ctrl.blur('text')" ng-change="$ctrl.changeText('text')" ng-model-options="{debounce: 500}" ng-model="$ctrl.text">
+                            </div>
+                          </span>      
+                       </div>
+                       <div class="col-md-6">
+                        <a style="float:right;" href="/admin/store/new" class="btn btn-success btn-md mr-0"><i class="material-icons">shopping_cart</i>Add New Product</a>
+                       </div>
+                       </div>
+                     <br>
+                    <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <nav>
+                      <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="nav-ayurveda-tab" data-hover="tab" href="/admin/store/" role="tab" aria-controls="nav-ayurveda" aria-selected="true">All</a>
+                        <a class="nav-item nav-link" id="nav-ayurveda-tab" data-hover="tab" href="/admin/store/ayurveda" role="tab" aria-controls="nav-ayurveda" aria-selected="true">Ayurveda</a>
+
+                          <a class="nav-item nav-link" id="nav-bamc-tab" data-hover="tab" href="/admin/store/baby-and-mom-care" role="tab" aria-controls="nav-bamc" aria-selected="false">Baby & Mom Care</a>
+
+                          <a class="nav-item nav-link" id="nav-diabetic-tab" data-hover="tab" href="/admin/store/diabetic-care" role="tab" aria-controls="nav-diabetic" aria-selected="false">Diabetic Care</a>
+
+                          <a class="nav-item nav-link" id="nav-health-tab" data-hover="tab" href="/admin/store/health-conditions" role="tab" aria-controls="nav-health" aria-selected="true">Health Conditions</a>
+
+                          <a class="nav-item nav-link" id="nav-homeopathy-tab" data-hover="tab" href="/admin/store/homeopathy" role="tab" aria-controls="nav-homeopathy" aria-selected="false">Homeopathy</a>
+
+                          <a class="nav-item nav-link" id="nav-medicine-tab" data-hover="tab" href="/admin/store/medicines" role="tab" aria-controls="nav-medicine" aria-selected="false">Medicines</a>
+
+                            <a class="nav-item nav-link" id="nav-nutrition-tab" data-hover="tab" href="/admin/store/nutritions" role="tab" aria-controls="nav-nutrition" aria-selected="true">Nutritions</a>
+
+                          <a class="nav-item nav-link" id="nav-personal-tab" data-hover="tab" href="/admin/store/personal-care" role="tab" aria-controls="nav-personal" aria-selected="false">Personal Care</a>
+                          
+                    </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-ayurveda" role="tabpanel" aria-labelledby="nav-ayurveda-tab">
+                      <div class="card">
+                        <% var arr = []; %>
+                        <% for(var i=0; i< products.length; i++){ 
+                          arr.push(products[i].category);
+                        } %>
+                        <% if(arr.every( (val, i, arr) => val === arr[0] )){ %>
+                          <div class="card-header card-header-primary">
+                            <h4 class="card-title">Products of category <%= arr[0] %></h4>
+                          </div>
+                        <% } else { %>
+                          <div class="card-header card-header-primary">
+                            <h4 class="card-title">All Products</h4>
+                          </div>
+                        <% } %>
+                        <div class="card-body table-responsive">
+                          <table class="table table-hover" id="myTable1">
+                            <thead class="text-warning">
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Expiry dt</th>
+                              <th>Brand</th>
+                              <th>Price</th>
+                              <th>Qty</th>
+                              <th>Status</th>
+                              <th></th>
+                              <th></th>
+                            </thead>
+                            <tbody>
+                              <% products.forEach(function(product){ %>
+                                <tr>
+                                  <td><%= product._id %></td>
+                                  <td><%= product.title %></td>
+                                  <td><%= product.expDate %></td>
+                                  <td><%= product.brand %></td>
+                        
+                                  <td><%= product.price %></td>
+                                  <td><%= product.qty %></td>
+                                  <% if(product.qty > 0){ %>
+                                    <td><span class="badge badge-pill badge-success">In stock</span></td>
+                                  <% } else { %>
+                                    <td><span class="badge badge-pill badge-danger">Out of stock</span></td>
+                                  <% } %>
+                                  <td><a href="/admin/store/<%= product._id %>/edit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> <strong>Edit</strong></a></td>
+                                  <td>
+                                    <form id="delete-form" action="/admin/store/<%= product._id %>?_method=DELETE" method="POST">
+                                      <button class=" btn-danger btn-sm"><i class="fa fa-trash"></i> <strong>Delete</strong></a></button>
+                                    </form>
+                                  </td>
+                                </tr>
+                              <% }) %>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>      
+      </div>
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+  <script>
+        function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable1");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) {
+            // Hide the row initially.
+            tr[i].style.display = "none";
+
+            td = tr[i].getElementsByTagName("td");
+            for (var j = 0; j < td.length; j++) {
+            cell = tr[i].getElementsByTagName("td")[j];
+            if (cell) {
+                if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break;
+                } 
+            }
+            }
+        }
+        }
+    </script>
+    
+ <% include ../partials/admin-footer %>

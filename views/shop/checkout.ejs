@@ -1,0 +1,172 @@
+<% include ../partials/header %>
+<link rel="stylesheet" href="/stylesheets/checkout.css">
+
+<div class="container con1 payment wrapper ">
+  <div class="payment-logo">
+    <p>p</p>
+  </div>
+  <h2>Payment Gateway</h2>
+  <div style="text-align: center;margin-top: 10px;" id="charge-error" class="alert alert-danger <% if(noErrors){ %> d-none <% } %>">
+    <%= errMsg %>
+  </div>
+<div class="row">
+    
+    <div class="col-lg-8 col-xs-12">
+      <form action="/checkout" method="POST" id="checkout-form">
+          <div class="container-fluid px-0 con2">
+          <div class="row">
+            <div data-aos="zoom-in" class="col-lg-6 col-xs-12">
+              <div class="container-fluid px-0 con_bil">
+                <div class="card card-default">
+                  <div class="card-header text-center hhead" style="color: white;background-color: #7952b3;">
+                      <h4>Billing Details</h4>
+                  </div>
+                  <% if(Object.keys(previousOrderDetails).length === 0){ %>
+                    <div class="card-body">
+                      <label for="name"><i class="fa fa-user"></i> Full Name</label>
+                      <input type="text" class="check_inp" id="name" name="name" placeholder="John M. Doe">
+                      <label for="address"><i class="fa fa-address-card-o"></i> Address</label>
+                      <input type="text" class="check_inp" id="adr" name="address" placeholder="542 W. 15th Street">
+                      <label for="city"><i class="fa fa-institution"></i> City</label>
+                      <input type="text" class="check_inp" id="city" name="city" placeholder="Mumbai">
+                      <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="state"><i class="fa fa-globe"></i> State</label>
+                          <input type="text" class="check_inp" id="state" name="state" placeholder="Maharashtra">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="zip"><i class="fa fa-map-marker"></i> Zip</label>
+                          <input type="text" class="check_inp" id="zip" name="zip" placeholder="400008">
+                        </div>
+                        <a href="/shopping-cart">< Back</a>
+                      </div> 
+                    </div>
+                  <% } else { %>
+                    <div class="card-body">
+                      <label for="name"><i class="fa fa-user"></i> Full Name</label>
+                      <input type="text" class="check_inp" id="name" name="name" value="<%= previousOrderDetails.name %>" placeholder="John M. Doe">
+                      <label for="address"><i class="fa fa-address-card-o"></i> Address</label>
+                      <input type="text" class="check_inp" id="adr" name="address" value="<%= previousOrderDetails.address %>" placeholder="542 W. 15th Street">
+                      <label for="city"><i class="fa fa-institution"></i> City</label>
+                      <input type="text" class="check_inp" id="city" name="city" value="<%= previousOrderDetails.city %>" placeholder="Mumbai">
+                      <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="state"><i class="fa fa-globe"></i> State</label>
+                          <input type="text" class="check_inp" id="state" name="state" value="<%= previousOrderDetails.state %>" placeholder="Maharashtra">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="zip"><i class="fa fa-map-marker"></i> Zip</label>
+                          <input type="text" class="check_inp" id="zip" name="zip" value="<%= previousOrderDetails.zip %>" placeholder="400008">
+                        </div>
+                        <a href="/shopping-cart">< Back</a>
+                      </div> 
+                    </div>
+                  <% } %>
+                  
+                </div>
+              </div>
+            </div>
+  
+            <div data-aos="zoom-in" class="col-lg-6 col-xs-12">
+              <div class="container-fluid px-0">
+              <div class="card card-default">
+                  <div class="card-header text-center hhead" style="color: white;background-color: #7952b3">
+                      <h4>Payment Details</h4>
+                  </div>
+                  <div class="card-body"> 
+                    <div style="font-size:18px;color:gray">Accepted cards</div>
+                    <div class="icon-container">
+                      <i class="fa fa-cc-visa" style="color:navy;"></i>
+                      <i class="fa fa-cc-amex" style="color:blue;"></i>
+                      <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                      <i class="fa fa-cc-discover" style="color:orange;"></i>
+                      <br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Radio" id="Radio1" value="online">
+                        <label class="form-check-label pay_method" for="Radio1">
+                          Online Payment<i class="fa fa-google-wallet" style="color:rgb(21, 128, 0);" aria-hidden="true"></i>
+                        </label>
+                      </div>
+                      <div class="container-fluid px-0 con_pay not_selected" id="pay">
+                        <br>
+                      <label for="card-name"><i class="fa fa-user"></i> Name on Card</label>
+                      <input type="text" class="check_inp" id="cname" name="card-name" placeholder="John More Doe">
+                      <label for="card-number"><i class="fa fa-cc-visa"></i> Credit card number</label>
+                      <input type="text" class="check_inp" id="ccnum" name="card-number" placeholder="1111-2222-3333-4444">
+                      <label for="card-expiry-month"><i class="fa fa-calendar"></i> Exp Month</label>
+                      <input type="text" class="check_inp" id="expmonth" name="card-expiry-month" placeholder="07">
+                      <div class="row">
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="card-expiry-year"><i class="fa fa-calendar"></i> Exp Year</label>
+                          <input type="text" class="check_inp" id="expyear" name="card-expiry-year" placeholder="2018">
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                          <label for="card-cvc"><i class="fa fa-address-card" aria-hidden="true"></i> CVV</label>
+                          <input type="text" class="check_inp" id="cvv" name="card-cvc" placeholder="352">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="icon-container">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Radio" id="Radio2" value="b" checked>
+                        <label class="form-check-label pay_method" for="Radio2">
+                        Cash on delivery
+                        </label>
+                        <i class="fa fa-money" style="color:green;"></i>
+                      </div>
+                    </div>
+                    <button id="pay" type="submit" class="btn btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>  Buy Now</button>
+                  </div>
+                </div>
+                </div>
+              </div>
+
+          </div>
+      </div>
+    </form>
+    </div>
+    <div data-aos="zoom-in" class="col-lg-4 col-xs-12">
+      <div class="container-fluid px-0 con3">
+        <div class="card card-default">
+            <div class="card-header text-center hhead" style="color: white;background-color: #7952b3">
+                <h4>Order Summary</h4>
+            </div>
+            <div class="card-body"> 
+              <table class="table table-hover">
+                <thead >
+                  <th>Product Name</th>
+                  <th>Qty</th>
+                  <th>Total price</th>
+                </thead>
+                <tbody>
+                  <% Object.values(cart.items).forEach(function(product){ %>
+                    <tr>
+                      <td><%= product.item.title %></td>
+                      <td><%= product.qty %></td>
+                      <td>₹<%= product.price %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table> 
+              <div class="container">Total <span class="price" style="color:black"><b>₹ <%= total %></b></span></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <script src="/javascripts/aos.js"></script> 
+  <script>
+      AOS.init();
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <!-- <script src="https://js.stripe.com/v3/"></script> -->
+  <script type="text/javascript" src="javascripts/checkout.js"></script>
+</body>
+</html>

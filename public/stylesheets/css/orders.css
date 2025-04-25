@@ -1,0 +1,109 @@
+
+input::-webkit-datetime-edit{ color: transparent; }
+input:focus::-webkit-datetime-edit{ color: #a9afbbd1; }
+
+.idd
+{
+  color: #8b92a9;
+}
+.dark-edition a {
+   color: #8b92a9;
+}
+
+#orders tr:hover {
+    background-color: rgb(66, 60, 88);
+}
+
+#orders td:hover {
+    cursor: pointer;
+}
+#pending_orders tr:hover {
+  background-color: rgb(66, 60, 88);
+}
+
+#pending_orders td:hover {
+  cursor: pointer;
+}
+
+
+
+.btnn
+{
+  color: #fff;
+  background-color:#913f9e;
+}
+
+.label
+{
+  display:inline-block;
+  padding:3px 10px;
+  color:white;
+  font-weight: 400;
+  border-radius: .25rem;
+  font-size: 75%;
+}
+
+
+.dark-edition .btn
+{
+   background-color: none;
+}
+
+
+
+.form-control:focus
+{
+  color: rgb(255, 255, 255);
+}
+
+.searchh
+{
+color:rgb(255, 255, 255);
+ font-size:15px;
+  width:25%;
+  outline: 1px ridge rgb(109, 58, 114);
+  background-color: transparent;
+}
+
+#checked
+{
+  display: inline-block;
+  margin: 5px auto;
+  width: 30%;
+  outline: 3px ridge rgb(225, 157, 231);
+}
+
+input.checkmark
+{
+  height: 20px;
+  width: 20px;
+}
+
+ .btn-group {
+		float: right;
+	}
+
+.btn-group .btn {
+  min-width: 90px;
+  border-radius: 2px;
+  border: none;
+  padding: 6px 12px;
+font-size: 15px;
+  outline: none !important;
+  height: 40px;
+  }
+  
+
+  button{
+    border: none;
+  }
+
+  button:disabled{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+} 
+
+
+
+

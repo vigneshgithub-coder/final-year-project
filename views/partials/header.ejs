@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Medeasy</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/csshome/finalheader.css">
+   <!--Fontawesome icons-->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+     <!--Bootstrap  CSS-->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- AOS -->
+    <link rel="stylesheet" href="/stylesheets/css/aos.css" />
+    </head>
+    <body>
+
+    <!-- <div id="headd">
+        This message is going to be replaced by the include file.
+    </div> -->
+
+    <!-- header start -->
+    <!--Navbar-->
+   <nav class="navbar navbar-expand-xl navbar-dark flex-column flex-md-row bd-navbar headd fixed-top" >
+        <div class="container con_head" style="max-width:100%">
+        <div class="navbar-header ">
+        <!-- Navbar brand -->
+        <span class="navbar-brand">
+            <a style="text-decoration: none;" href="/"><img style="margin-right: 10px;" src="/images/gallery/logo2.png" alt="medeasy logo" class="logo">
+                <span class="name">MEDEASY</span></a>
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        </div>
+
+            <div  class="collapse md-navbar-collapse navbar-collapse " id="navbarSupportedContent" style="z-index: 15;
+            background-color: rgb(86, 61, 124);
+            width: 100%;
+            margin-left: -16px;
+            margin-right: -16px;
+            margin-top: -3px;">
+                                
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ni active">
+                        <div class="d-flex h-100">
+                            <div class="searchbar">
+                                <input class="search_input" type="text" id="searchName" placeholder="search...">
+                                <!-- <a href="#" class="search_icon"><i class="fa fa-search"></i></a> -->
+                                
+                                    <a href="#" onclick="myFun()" class="search_icon"><i class="fa fa-search"></i></a>
+                            
+                                <div class="match_list" id="match-list">   
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <form class="form-inline my-2 my-lg-0">
+                    <ul class="navbar-nav mr-auto">
+                        <%  if(session.cart && session.cart.totalQty > 0){ %>
+                            <li class="nav-item ni active ">
+                                <a class="nav-link" href="/shopping-cart">Cart<i class="fa fa-shopping-cart"></i><span class="badge badge-success badge-pill">
+                                    <%= session.cart.totalQty %>
+                                </span></a>
+                            </li>
+                        <% } else{ %>
+                            <li class="nav-item ni active">
+                                <a class="nav-link" href="/shopping-cart">Cart<i class="fa fa-shopping-cart"></i></a>
+                            </li>
+                        <% } %>
+
+                        <% if(!currentUser){ %>
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item ni active"><a class="nav-link" href="/user/signin">Login <i class="fa fa-user"></i></a></li>
+                        <% } else { %>
+                            <li  class="nav-item ni dropdown active">
+                                <a style="margin-right: 60px;margin-left: 10px;" class="nav-link dropdown-toggle extra" id="Username" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <%= currentUser.fullname %>
+                                </a>
+                                <div class="dropdown-menu  aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/user/order-history">My Orders</a>
+                                    <a class="dropdown-item" href="/user/logout">Logout</a>
+                                </div>
+                            </li>
+                        <% } %>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    
+        
+</nav>
+
+    <!-- <script>
+        $(document).mouseup(function(e){
+            var container = $("#match-list");
+        
+            // If the target of the click isn't the container
+            if(!container.is(e.target) && container.has(e.target).length === 0){
+                container.hide();
+            }
+        });
+        </script> -->
+      <script>
+        function myFun() {
+          var x = document.getElementById("match-list");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    </script>
+    <script>
+        const search = document.getElementById('searchName');
+        const matchList = document.getElementById('match-list');
+    
+        const searchProducts = async searchText => {
+            const res = await fetch('/api/products');
+            const products = await res.json();
+            //Get match to input
+            let matches = products.filter(product => {
+                if(product.qty>0){
+                    const regex = new RegExp(`${searchText}`,'gi');
+                    console.log("Searchtext "+searchText);
+                    let tagsArray = product._tags.join(" ");
+                    console.log("tagsArray "+tagsArray);
+                    return  product.title.match(regex) || tagsArray.match(regex) || product.category.match(regex);
+                }
+            });
+            //console.log("Matches: ",matches);
+            if(searchText.length === 0 || matches.length === 0){
+                matches=[];
+                matchList.innerHTML ="";
+            }
+            outputHtml(matches);
+        };
+
+   //show result in html
+    const outputHtml = matches =>{
+            if(matches.length>0){
+                const html = matches.slice(0,10).map(match => `
+                    <div class="card card-body dropdown-content"style="  padding-left: 0.5em; padding-right: 0.25em;">                   
+                        <div class="container itemm"> 
+                            <div class="row" style="width:100%;">
+                                <div class="col-sm-2" style="text-align:center; margin:auto; padding:0;">
+                                    <img src="${match.image}" class="center">
+                                </div>
+                                <div class="col-sm-7">
+                                    <a href="/products/${match._id}" style="color:"black font-size:18px;font-weight:200" class="dropp"> 
+                                        ${match.title}
+                                        <div class="prdct-details" style="font-size:15px;color:rgba(21,27,57,0.6);">  
+                                            <div>by ${match.brand}</div>
+                                            <label style="margin-top: 10px;color:black;background-color: rgb(203, 200, 240);padding-left:7px; padding-right:7px;">${match.category}</label>
+                                        </div>
+                                    </a>
+                                </div> 
+                                
+                                <div class="col-sm-3 rightt">
+                                    <div class="prdct-price">₹ ${match.price}</div>
+                                    
+                                        <a class="search-add-to-cart" href="/add-to-cart/${match._id}"> 
+                                            <button type="button" class="pulse">    
+                                                <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                matchList.innerHTML = html;
+            }
+        }
+        search.addEventListener('input',() => searchProducts(search.value))
+    </script>

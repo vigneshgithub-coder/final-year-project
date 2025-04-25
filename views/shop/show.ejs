@@ -1,0 +1,118 @@
+<!-- #563d7c -->
+<!--<html>
+    <head>
+        <title>Product page</title>
+        <link rel="stylesheet" href="/stylesheets/show.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >-->
+        <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>-->
+<% include ../partials/header %>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/show.css">
+        <div style="margin: auto;margin-bottom: 0;margin-top: 20px;text-align: center;" class="col-sm-5 col-lg-5">
+            <div id="success" class="alert alert-success <% if(noMessages){ %> d-none <% } %>" >
+                <% if(isIcon){ %>
+                    <i class="fa fa-check" aria-hidden="true"></i> <%= successMsg %>
+                <% } else { %>
+                    <%= successMsg %>
+                <% } %>
+            </div>
+        </div>
+        <div data-aos="zoom-in" class="container con1 payment wrapper" >
+            
+            <div class="row">
+                <div class="col-lg-5 col-xs-12 image">
+                    <img src="<%= product.image %>" class="w-100 h-100">
+                </div>
+                <div class="col-lg-7 col-xs-12 cont">
+                    <p class="category_name text-center"><%= product.category %></p>
+                    <h2><%= product.title %> - <span><%= product.tablets %></span></h2>
+                    <p><span style="font-size: large;">By <%= product.brand %></span></p>
+                    <hr>
+                    <div class="row detail1">
+                        <div class="col-lg-6 col-xs-12">
+                            <% if(product.qty > 0){ %>
+                            <p><b>Availibility: </b><span class="inStock">In Stock</span></p>
+                            <% } else { %>
+                                <p><b>Availibility: </b><span class="outOfStock" >Out Of Stock</span></p>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="row detail2">
+                        <div class="col-lg-6 col-xs-12 center">
+                            <span class="exp"><b>Exp Date: </b><%= product.expDate %></span></p>
+                        </div>
+                        <div class="col-lg-6 col-xs-12 center">
+                            <span class="exp"><b>Mfg Date: </b><%= product.mfgDate %></span></p>
+                        </div>
+                    </div>
+                    <p class="price">₹ <%= product.price %></p>
+                    <!-- <div class="row col-lg-6 col-xs-12"> -->
+                        <!--<div class="qty mt-4">
+                                    <label><b>QTY   :</b></label>
+                                    <a href=""><span class="minus bg-dark">-</span></a>
+                                    <input type="number" class="count" name="qty" value="1" min="1" max="5">
+                                    <span class="plus bg-dark">+</span>
+                        </div>-->
+                    <div class="row d-flex align-items-end last ">
+                        <!--<div class="col-lg-6 col-xs-12 t_amt">
+                            <span style="font-size: large;"><b>Total Amt :</b><span class="tp">Rs.216</span></span>
+                        </div>-->
+                        <% if(product.qty > 0) { %>
+                            <div class="col-lg-6 col-xs-12">
+                                <a href="/add-to-cart/<%= product._id %>"><button type="button" class="cart_button"><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Add to Cart</button></a>
+                            </div>
+                        <% } else { %>
+                            <div class="col-lg-6 col-xs-12">
+                                <a href="/add-to-cart/<%= product._id %>"><button type="button" class="cart_button" disabled><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Add to Cart</button></a>
+                            </div>
+                        <% } %>      
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                    <a class="nav-link active" id="Desc-tab" data-toggle="tab" href="#Desc" role="tab" aria-controls="Desc" aria-selected="true">Desc</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="Composition-tab" data-toggle="tab" href="#Composition" role="tab" aria-controls="Composition" aria-selected="false">Composition</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" id="Precautions-tab" data-toggle="tab" href="#Precautions" role="tab" aria-controls="Precautions" aria-selected="false">Precautions</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" id="brand-tab" data-toggle="tab" href="#brand" role="tab" aria-controls="brand" aria-selected="false">Brand</a>
+                    </li> -->
+                </ul>
+            </div>
+              <br>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="Desc" role="tabpanel" aria-labelledby="Desc-tab">
+                    <%= product.description %>
+                </div>
+                <div class="tab-pane fade" id="Composition" role="tabpanel" aria-labelledby="Composition-tab">
+                    <%= product.composition %>
+                </div>
+                <div class="tab-pane fade" id="Precautions" role="tabpanel" aria-labelledby="Precautions-tab">
+                    <%= product.precautions %>
+                </div>
+                <!-- <div class="tab-pane fade" id="brand" role="tabpanel" aria-labelledby="brand-tab">
+                    By ARdan's company
+                </div> -->
+              </div>
+        </div>
+
+    </body>
+</html>
+
+<script src="/javascripts/aos.js"></script> 
+<script>
+    AOS.init();
+</script>
+
+

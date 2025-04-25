@@ -1,0 +1,259 @@
+
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Ubuntu');
+
+.con_head {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+
+.headd
+{
+ 
+  background-color: #563d7c;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.05), inset 0 -1px 0 rgba(0,0,0,.1);
+  width:100%;
+  background-color:#563d7c;
+  text-decoration:none;
+  width: 100%;
+  font-family: "Lato";
+  color: black;
+  background-size: cover;
+  background-position: center; 
+  height:65px;
+  
+}
+
+
+.logo
+{
+    max-width: 50px;
+    max-height:50px ;
+}
+
+#navBarSearchForm
+{
+    display: flex;
+    margin-right: 10px;
+    margin-left: 70px;
+}
+
+
+.name
+{
+    color: white;
+    font-weight: 400;
+    font-size:27px;
+    vertical-align: middle;
+
+}
+
+.ni
+{
+    color:white;
+    font-size: 20px;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.ni:hover {
+    text-decoration: none;
+    }
+
+
+    
+
+
+/* search */
+
+
+.pulse{
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  font-weight: 200;
+  line-height: 1;
+  margin: 0.5em;
+  padding: .25em .25em;
+  color: #563d7c;
+  transition: 0.25s;
+
+} 
+.pulse:focus {
+  animation: pulse 1s;
+  border-color: #563d7c;
+  color: #7952b3;
+  box-shadow: 0 0 0 2em rgba(#fff,0);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 var(--hover); }
+}
+
+.offset {  
+  box-shadow: 
+    0.3em 0.3em 0 0 var(--color),
+    inset 0.3em 0.3em 0 0 var(--color);
+
+}
+
+.offst:hover,.offset:focus
+{
+  box-shadow: 
+      0 0 0 0 var(--hover),
+      inset 6em 3.5em 0 0 var(--hover);
+}
+
+.center {
+  width: 60px;
+  height: 60px;
+  margin-top: 13px;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #efe8f8;        /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color:#9b939e ; /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  /* border: 2.5px solid #6f00ca ; creates padding around scroll thumb */
+}
+/* 
+.search_input:focus+div#match-list{
+  display:block;
+} */
+
+.match_list {
+  height: 328px;
+  overflow-y:auto;
+  
+}
+.dropp
+{
+  color:rgb(0, 0, 0);
+  font-size: 18px;
+} 
+.rightt
+{
+  color:black;
+} 
+
+.dropp:hover{
+  text-decoration: none;
+  color:rgb(0, 0, 0);
+
+}
+.prdct-detail
+{
+  color:rgb(81, 85, 81);
+  font-size: 15px;
+}
+.prdct-brand
+{
+  background-color: rgb(203, 200, 240);
+}
+.prdct-price
+{
+  color: rgb(201, 27, 62);
+  font-size: 17px;
+  font-weight: 700;
+}
+.itemm{
+  max-width:100%;
+  max-height:100%;
+  margin-bottom:-20px;
+  margin-top:-20px ;
+  padding-right: 0px;
+   padding-left: 0px;
+
+}
+.itemm:hover
+{
+  text-decoration: none;
+}
+.dropdown-content{
+  padding-left: 0.5em;
+  padding-right: 0.25em;
+}
+.dropdown-content:hover
+{
+  background-color: rgb(226, 222, 222);
+  text-decoration: none;
+}
+  
+.searchbar{
+    margin-left:27px;
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 50px;
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px;
+    align-content: center;
+    vertical-align: middle;
+    }
+
+    .search_input{
+    color: black;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color:transparent;
+    transition: width 0.4s linear;
+    vertical-align: middle;
+    align-content: center;
+    font-size: 22px;
+    justify-content: center;
+    }
+
+    .s_label
+    {
+      vertical-align: middle;
+      align-content: center;
+      font-size: 22px;
+      justify-content: center;
+      color: black;
+    }
+
+    .searchbar:hover > .search_input{
+    width: 400px;
+    caret-color:black;
+    transition: width 0.4s linear;
+    vertical-align: middle;
+    }
+
+    .searchbar:hover > .search_icon{
+    background: white;
+    color:  #7952b3;
+    }
+
+
+    .search_icon{
+    height: 25px;
+    width: 25px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #7952b3;
+    text-decoration:none;
+    }
+
+    body{
+      padding-top: 65px;
+    }
+
+    .search-add-to-cart:hover > button{
+      color: white;
+      background-color: #7952b3;
+      border-color: #7952b3;
+    }

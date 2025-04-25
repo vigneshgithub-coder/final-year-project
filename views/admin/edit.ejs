@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    MedEasy
+  </title>   
+  <link href="/stylesheets/css/material-dashboard.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <style>
+    input::-webkit-datetime-edit{ color: transparent; }
+    input:focus::-webkit-datetime-edit{ color: #a9afbbd1;; }
+</style>
+</head>
+
+<body class="dark-edition">
+  <div class="wrapper ">
+    <% include ../partials/admin-sidebar %>
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <div class="row ">
+                <a class="navbar-brand" href="javascript:void(0)">Edit Form</a>
+              </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+          </div>
+         </nav>
+        <!-- End Navbar -->
+      <div class="content" >
+        <div class="row justify-content-center">
+          <div class="col-sm-6 col-md-4">
+              <div style="text-align: center;" id="danger" class="alert alert-danger <% if(noMessages){ %> d-none <% } %>" >
+                  <%= errMsg %>
+              </div>
+          </div>
+        </div>
+        <div class="container" style="width: 70%; margin: 0 auto;">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Edit <%= product.title %></h4>
+                </div>
+                <div class="card-body">
+                  <form action="/admin/store/<%= product._id %>?_method=PUT" method="POST">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Name *</label>
+                          <input type="text" name="title" value="<%= product.title %>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Brand *</label>
+                          <input type="text" name="brand" value="<%= product.brand %>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating"></label>
+                          <div class="btn-group">
+                    
+                      <select value="health-conditions" name="select">
+                        <% var options = [ "Ayurveda", "Baby and Mom Care", "Diabetic Care", "Health Conditions", "Homeopathy", "Medicines", "Nutritions", "Personal care" ]; %>
+                        <% for ( var i = 0; i < options.length; i++ ) { %>
+                              <% var lowercased = options[i].toLowerCase();
+                              var splitted = lowercased.split(" ");
+                              var joined = splitted.join("-"); %>
+                              <% if(product.category === joined) { %>
+                                <option value="<%= joined %>" selected>
+                                  <li class="dropdown-item" name="category"><%= options[i] %></li> 
+                                </option>
+                              <% } else { %>
+                                <option value="<%= joined %>">
+                                  <li class="dropdown-item" name="category"><%= options[i] %></li> 
+                                </option>
+                              <% } %>
+                          <% } %>
+                      </select>
+                      
+                  </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Manufacturing date *</label>
+                          <input type="text"  name="mfgDate" value="<%= product.mfgDate %>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Expiry date *</label>
+                          <input type="text" name="expDate" value="<%= product.expDate %>" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                  <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Price *</label>
+                          <input type="text"  name="price" value="<%= product.price %>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Tablets/ml *</label>
+                          <input type="text" name="tablets" value="<%= product.tablets %>" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Image url *</label>
+                          <input type="text" name="image" value="<%= product.image %>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Qty *</label>
+                          <input type="number" name="qty" value="<%= product.qty %>" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Tags (add tags separated by commas eg. a,b,c)</label>
+                          <% var tags = product._tags %>
+                          <% var _tags = tags.join(",") %>
+                          <input type="text" name="_tags" value="<%= _tags %>" class="form-control">
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Tax</label>
+                          <input type="text" name="_tax" class="form-control">
+                        </div>
+                      </div> -->
+                      </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Composition *</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"></label>
+                            <textarea class="form-control" rows="2" name="composition" ><%= product.composition %></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Description *</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"></label>
+                            <textarea class="form-control" rows="3"name="description"><%= product.description %></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Precautions *</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"></label>
+                            <textarea class="form-control" rows="2" name="precautions"><%= product.precautions %></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                      
+                    <!--<button type="submit"  class="btn btn-primary pull-left">Go back</button>-->
+                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <% include ../partials/admin-footer %>

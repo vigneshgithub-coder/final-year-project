@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    MedEasy
+  </title>
+  <!-- <link href="css\material-dashboard.css" rel="stylesheet">
+  <link href="css\search.css" rel="stylesheet"> -->
+
+  <link href="/stylesheets/css/material-dashboard.css" rel="stylesheet">
+  <link href="/stylesheets/css/search.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<script src="/javascripts/search.js"></script>
+<body class="dark-edition">
+  <div class="wrapper ">
+    <% include ../partials/admin-sidebar %>
+
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <div class="row ">
+                <a class="navbar-brand" href="javascript:void(0)">Orders List</a>
+              </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+              <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+          </div>
+         </nav>
+        <!-- End Navbar -->
+     <div class="content">
+        <div class="container">
+          <div class="row">
+        
+            <div class="col-md-6">
+              <span >
+                <div class="input-group ">
+                    <input class=" form-control searchh" type="text" id="myInput" onkeyup="order_list_search()"  placeholder="  Search.."ng-blur="$ctrl.blur('text')" ng-change="$ctrl.changeText('text')" ng-model-options="{debounce: 500}" ng-model="$ctrl.text">
+                </div>
+              </span>      
+            </div>     
+          </div>
+            
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Order Details</h4>
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover table-striped" id="order_list">
+                    <thead class="text-warning">
+                      <th>Sr No.</th>
+                      <th>Product ID</th>
+                      <th>Name</th>
+                      <th>Photo</th>
+                      <th>Expiry dt</th>
+                      <th>Brand</th>
+                      <th>Category</th>
+                      <th>Price</th>
+                      <th>Qty</th>
+                      <th>Total Price</th>
+                    </thead>
+                    <tbody>
+
+                      <% var sr = 0; %>
+                      <% Object.values(order.cart.items).forEach(function(order){ %>
+                        <% sr = sr + 1; %>
+                        <tr>
+                          <td id="sr-no"><%= sr %></td>
+                          <td id="product_id"><%= order.item._id %></td>
+                          <td id ="title"><%= order.item.title %></td>
+                          <td id="image"><img src="<%= order.item.image %>" alt="<%= order.item.title %>" width="60" height="60"></td>
+                          <td id="expDate"><%= order.item.expDate %></td>
+                          <td id="brand"><%= order.item.brand %> </td>
+                          <td id="category"><%= order.item.category%></td>
+                          <td id="price"><%= order.item.price %></td>
+                          <td id="qty"><%= order.qty %></td>
+                          <td id="total_price"><%= order.price %></td>
+                        </tr>
+                      <% }) %>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>  
+            </div>            
+          </div>
+        </div>
+      </div>
+  </div>
+ </div>
+
+
+
+   
+
+ <% include ../partials/admin-footer %>

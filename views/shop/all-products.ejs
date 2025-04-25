@@ -1,0 +1,82 @@
+<% include ../partials/header %>
+<link rel="stylesheet" href="/stylesheets/css/category_products.css">
+    <div class="container">
+        <div style="margin-bottom: 0;margin-top: 20px;text-align: center;" class="col-sm-12 col-md-12">
+            <div id="success" class="alert alert-success <% if(noMessages){ %> d-none <% } %>" >
+                <% if(isIcon){ %>
+                    <i class="fa fa-check" aria-hidden="true"></i> <%= successMsg %>
+                <% } else { %>
+                    <%= successMsg %>
+                <% } %>
+            </div>
+            <div id="error" class="alert alert-danger <% if(noError){ %> d-none <% } %>" >
+                <%= errorMsg %>
+            </div>
+        </div>
+        <div class="row row_m">
+            <div class="col">
+                <h2 class="cat_hd"><%= category.toUpperCase() %></h2>
+            </div>
+        </div>
+        <hr class="line_hr">
+        <div class="row">
+            <% products.forEach(function(product){ %>
+                <div data-aos="zoom-in" class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="card mb-3">
+                        <div class="container con1">
+                            <img class="card-img-top" src="<%= product.image %>" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h5 style="font-size:18px;" class="card-title"><a href="/products/<%= product._id %>" title="View Product"><span><%= product.title %></span></a></h5>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="pr" >₹ <%= product.price %></p>
+                                </div>
+                                <% if(product.qty > 0) { %>
+                                    <div class="col">
+                                        <a href="/add-to-cart/<%= product._id %>"><button type="button" class="cart_button"><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Add to Cart</button></a>
+                                    </div>
+                                <% } else { %>
+                                    <div class="col">
+                                        <a href="/add-to-cart/<%= product._id %>"><button type="button" class="cart_button" disabled><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Add to Cart</button></a>
+                                    </div>
+                                <% } %>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+            <div class="col-12">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <% if(paginationResult.prev_page){ %>
+                            <li class="page-item">
+                                <a class="page-link" href="/category/allproducts?page=<%= paginationResult.prev_page %>" tabindex="-1">Previous</a>
+                            </li>
+                        <% } %>
+                            
+                        <% for(var i=1; i <= paginationResult.total_pages; i++){ %>
+                            <li class="page-item"><a class="page-link" href="/category/allproducts?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                            
+                        <% if(paginationResult.next_page){ %>
+                            <li class="page-item">
+                                <a class="page-link" href="/category/allproducts?page=<%= paginationResult.next_page %>" tabindex="-1">Next</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+<script src="/javascripts/aos.js"></script> 
+<script>
+    AOS.init();
+</script>
+<% include ../partials/footer %>
+
+
+
+
+
+
+

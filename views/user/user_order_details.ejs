@@ -1,0 +1,220 @@
+
+    <link rel="stylesheet" href="/stylesheets/css/user_order_details.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <% include ../partials/header %>
+  </head>
+  <body>
+
+
+<div data-aos="zoom-in" class="container con1 payment wrapper ">
+  <div class="row">
+    <div data-aos="zoom-in" class="col-xs-12 col-md-12 col-sm-12">
+        <!--ORDER DETAILS-->
+        <div class="card card-default">
+          <div class="card-header text-center hhead" style="background-color:#7952b3;">
+              <h4>Order Details</h4>
+          </div>
+        <div class="card-body">
+          <div style="background-color: white;" class="container statusbox">
+            <div class="card track">
+              <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                  <h5> ORDER ID <span class="text-primary font-weight-bold"><%= order._id %></span></h5>
+                </div>
+                  <div class="d-flex flex-column text-sm-left">
+                    <% 
+                      var d = order.purchaseDate;
+                      var date = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
+                    %>
+                    <p class="mb-0">Name: <span class="font-weight-bold"><%= order.name%></span></p>
+                    <p class="mb-0">Your Order Date: <span class="font-weight-bold"><%= date %></span></p>
+                    <p class="mb-0">No of Products: <span class="font-weight-bold"><%= order.cart.totalQty %></span></p>
+                    <p class="mb-0">Payment Method: <span class="font-weight-bold"><%= order.paymentMode %></span></p>
+                  </div>
+              </div>
+                  <!-- Add class 'active' to progress -->
+                <div class="row d-flex justify-content-center">
+                  <div class="col-12">
+                    <ul id="progressbar" class="text-center">
+                      <% if(order.isConfirmed && order.isDelivered){ %>
+                        <li class="active step0"></li>
+                        <li class="active step0"></li>
+                        <li class="active step0"></li>
+                      <% } else if(order.isConfirmed && !order.isDelivered){ %>
+                        <li class="active step0"></li>
+                        <li class="active step0"></li>
+                        <li class="step0"></li>
+                      <% } else { %>
+                          <li class="active step0"></li>
+                          <li class="step0"></li>
+                          <li class="step0"></li>
+                      <% } %>
+                    </ul>
+                  </div>
+                </div>
+                <div class="row justify-content-between top">
+                  <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                      <p class="font-weight-bold">Order<br>Processed</p>
+                    </div>
+                  </div>
+                  <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                      <p class="font-weight-bold">Order<br>Shipped</p>
+                    </div>
+                  </div>
+                    <!-- <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                        <div class="d-flex flex-column">
+                            <p class="font-weight-bold">Order<br>En Route</p>
+                        </div>
+                    </div> -->
+                  <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column">
+                      <p class="font-weight-bold">Order<br>Arrived</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <br>
+          <table class="table borderless table-striped" id="order_details" >
+            <thead>       
+              <th colspan="2">Products</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total Price</th>     
+              <th></th>   
+            </thead>
+            <tbody class="details">
+              <% products.forEach(function(product){ %>
+                <tr>
+                  <td>
+                    <img src="<%= product.item.image %>" alt="<%= product.item.title %>" style="width:70px;height:70px">
+                  </td>
+                  <td>
+                    <a class= pull-left" href="/products/<%= product.item._id %>" style="color:inherit">
+                    <div class="media">
+                      <div class="media-body">
+                          <h5 class="media-header"><%= product.item.title %></h5>
+                          <i><h6 class="media-header"><%= product.item.brand%></h6></i>
+                      </div>
+                    </div>
+                    </a>
+                  </td>
+                  <td>₹ <%= product.item.price%></td>
+                  <td><%= product.qty %></td>
+                  <td>₹ <%= product.price %></td>
+                  <td><a href="/add-to-cart/<%= product.item._id %>"><button type="button" class="btn btn-primary">Buy it again</button></a></td>
+                </tr>
+              <% }) %>
+              <tr>
+                <td colspan="3"></td>
+                <td  class="font-500"><b>Total Amount</b> </td>
+                <td class="font-500" ><b><%= order.cart.totalPrice %></b></td>
+                <td colspan="1"></td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+      </div>
+        <!--ORDER DETAILS END-->
+    </div>
+
+  <div class="container">
+  <div class="row ">
+    <div data-aos="zoom-in" class="col-xs-12 col-md-6 col-sm-12">
+        <!--PAYMENT DETAILS-->
+      <div class="card card-default">
+          <div class="card-header text-center hhead" style="background-color: #7952b3;">
+              <h4>Payment Details</h4>
+          </div>
+          <div class="card-body">
+            <div class="col-md-12">
+                <strong>Subtotal:</strong>
+                <div class="pull-right"><span>₹ <%= order.cart.totalPrice %></span></div>
+            </div>
+            <div class="col-md-12">
+                <strong>Shipping:</strong>
+                <div class="pull-right"><span>Free</span></div>
+            </div>
+            <div class="col-md-12">
+              <strong>Payment Mode:</strong>
+              <div class="pull-right"><span><%= order.paymentMode %></span></div>
+              <hr>
+          </div>
+            <div class="col-md-12">
+                <strong>Order Total:</strong>
+                <div class="pull-right"><span>₹ <%= order.cart.totalPrice %></span></div>
+            </div>
+            
+          </div>
+          
+      </div>
+      <br>
+    <div class="row justify-content-sm-center" style="text-align:center">
+    <a href="/user/order-history"><button type="button" class="btn btn-primary btn-lg btn-block">Back to Order History</button></a>
+    </div>
+    </div>
+        <!--PAYMENT DETAILS END -->
+        <!--SHIPPING METHOD-->
+    <div data-aos="zoom-in" class="col-xs-12 col-md-6 col-sm-12">
+      <div class="card card-default" style="margin-bottom: 2rem;">
+        <div class="card-header text-center hhead" style="background-color: #7952b3;">
+            <h4>Shipping Details</h4>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="row" style="max-width:100%">
+            <div class="col-md-4 col-lg-3">
+              <i class="fa fa-address-card-o"></i>
+              <strong>Address:</strong>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="pull-right">
+                  <span><%= order.address %>
+                  </span>
+                </div>
+            </div>
+            </div>
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <i class="fa fa-institution"></i>
+              <strong>City:</strong>
+              <div class="pull-right"><span><%= order.city%></span></div>
+                <hr>
+          </div>
+          <div class="col-md-12">
+            <i class="fa fa-globe"></i> 
+              <strong>State:</strong>
+              <div class="pull-right"><span><%= order.state %></span></div>
+              <hr>
+          </div>
+          <div class="col-md-12">
+            <i class="fa fa-map-marker"></i> 
+              <strong>Zip:</strong>
+              <div class="pull-right"><span><%= order.zip %></span></div>
+              
+          </div>
+        </div>
+      </div>
+        <!--SHIPPING METHOD END-->
+    </div>
+  </div> <!--row ends -->
+  </div>
+
+
+
+
+  </div>
+      
+</div>
+
+  <script src="/javascripts/aos.js"></script> 
+  <script>
+      AOS.init();
+  </script>
+</body>
+</html>
