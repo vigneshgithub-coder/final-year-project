@@ -92,8 +92,3 @@ An Online E-commerce website for medicines.
 * Backend: Nodejs
 * Framework: Expressjs
 * Database: MongoDB
-
-## Developers
-- [Shubh Shah](https://github.com/shahshubh) - Backend Developer
-- [Sakshi Shelar](https://github.com/Sakshi107) - Frontend Developer
-- [Hiral Sheth](https://github.com/hiral72) - Frontend Developer

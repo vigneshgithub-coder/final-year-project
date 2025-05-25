@@ -174,7 +174,7 @@ router.get('/admin/pending-orders',isLoggedIn, isAdmin, function(req,res){
     });
 });
 
-router.put('680a6b87775a8a65ac205df2',isLoggedIn, isAdmin, function(req,res){
+router.put('/admin/orders/status/:id/confirmed',isLoggedIn, isAdmin, function(req,res){
     var orderId = req.params.id;
     Order.findByIdAndUpdate(orderId, {isConfirmed: true}, function(err,order){
         if(err){
@@ -184,7 +184,7 @@ router.put('680a6b87775a8a65ac205df2',isLoggedIn, isAdmin, function(req,res){
             res.redirect("/admin/pending-orders");
         }
     });
-}); 
+});
 
 router.put('/admin/orders/status/:id/delivered',isLoggedIn, isAdmin, function(req,res){
     var orderId = req.params.id;

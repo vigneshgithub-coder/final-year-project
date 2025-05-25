@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 
 const User = require('../models/user');
 const LocalStrategy = require('passport-local').Strategy;
-const adminCode = "secretcode";
+const adminCode = "admin";
 
 /*done(err,__) err as a first parameter*/
 passport.serializeUser(function(user, done){
