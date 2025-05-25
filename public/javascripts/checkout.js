@@ -1,41 +1,47 @@
-$('input:radio[name=Radio]').change(function(){
-    if($(this).attr("value")==="online")
-    {
-        Stripe.setPublishableKey('pk_test_51RGMvyFR4X8vzQ9iWaBOvL8nVmggoVg1R3tjhb3H0hgRGY3wtGPJNif8PvrjXYr671HipGMy7dUOYxX2K5BWVhop00nXaXVZT0');
-        var $form = $('#checkout-form');
-        $form.submit(function(event){
-        $('#charge-error').addClass('d-none');
-        $form.find('button').prop('disabled', true);
-        Stripe.card.createToken({
-            number: $('#ccnum').val(),
-            cvc: $('#cvc').val(),
-            exp_month: $('#expmonth').val(),
-            exp_year: $('#expyear').val(),
-            name: $('#cname').val()
-        }, stripeResponseHandler);
-        return false;
-        });
-        function stripeResponseHandler(status, response){
-            if(response.error){
-                $('#charge-error').text(response.error.message);
-                $('#charge-error').removeClass('d-none');
-                $form.find('button').prop('disabled', false);
-            } else {
-                var token = response.id;
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                $form.get(0).submit();
-            }
-        }
-    }
-});
-    
-var pay=document.querySelector("#pay");
-$('input[type=radio]').click(function()
-{
-    if($('input[value=online]').prop("checked")) {
-        pay.classList.remove("not_selected");
+// File: public/javascripts/checkout.js
 
-    }else if($('input[value=b]').prop("checked")){
-        pay.classList.add("not_selected");
+document.addEventListener("DOMContentLoaded", function () {
+  const checkoutForm = document.getElementById("checkout-form");
+  const paySection = document.getElementById("pay");
+  const totalInput = document.getElementById("totalAmount");
+  const totalAmount = totalInput ? parseFloat(totalInput.value) : 0;
+
+  // Toggle PayPal container visibility
+  document.querySelectorAll('input[name="Radio"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (document.getElementById("Radio1").checked) {
+        paySection.classList.remove("not_selected");
+      } else {
+        paySection.classList.add("not_selected");
+      }
+    });
+  });
+
+  // Initialize PayPal buttons
+  paypal.Buttons({
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: totalAmount.toFixed(2), // Must be a string with 2 decimals
+            currency_code: "USD"
+          }
+        }]
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        alert('Transaction completed by ' + details.payer.name.given_name);
+
+        // Append hidden input with PayPal order ID and submit the form
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "paypal_order_id";
+        input.value = data.orderID;
+
+        checkoutForm.appendChild(input);
+        checkoutForm.submit();
+      });
     }
+  }).render('#paypal-button-container');
 });
