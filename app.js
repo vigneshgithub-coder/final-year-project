@@ -93,3 +93,9 @@ app.use(function(err, req, res, next) {
 app.listen(process.env.PORT || 3000, process.env.IP, function(){
   console.log("medlife server Started");
 });
+
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow only your frontend
+  credentials: true
+}));
