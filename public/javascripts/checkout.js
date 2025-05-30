@@ -1,12 +1,10 @@
-// File: public/javascripts/checkout.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const checkoutForm = document.getElementById("checkout-form");
   const paySection = document.getElementById("pay");
   const totalInput = document.getElementById("totalAmount");
   const totalAmount = totalInput ? parseFloat(totalInput.value) : 0;
 
-  // Toggle PayPal container visibility
+  // Toggle Stripe button visibility
   document.querySelectorAll('input[name="Radio"]').forEach(radio => {
     radio.addEventListener("change", () => {
       if (document.getElementById("Radio1").checked) {
@@ -17,31 +15,41 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Initialize PayPal buttons
-  paypal.Buttons({
-    createOrder: function (data, actions) {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: totalAmount.toFixed(2), // Must be a string with 2 decimals
-            currency_code: "USD"
-          }
-        }]
-      });
-    },
-    onApprove: function (data, actions) {
-      return actions.order.capture().then(function (details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
+  const stripeButton = document.getElementById("stripe-button");
 
-        // Append hidden input with PayPal order ID and submit the form
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "paypal_order_id";
-        input.value = data.orderID;
+  if (stripeButton) {
+    stripeButton.addEventListener("click", async (e) => {
+      e.preventDefault();
 
-        checkoutForm.appendChild(input);
-        checkoutForm.submit();
-      });
-    }
-  }).render('#paypal-button-container');
+      const formData = new FormData(checkoutForm);
+
+      const body = {
+        name: formData.get("name"),
+        address: formData.get("address"),
+        city: formData.get("city"),
+        state: formData.get("state"),
+        zip: formData.get("zip"),
+        total: totalAmount
+      };
+
+      try {
+        const res = await fetch("/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert("Failed to create Stripe session.");
+        }
+      } catch (err) {
+        console.error("Stripe error:", err);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  }
 });

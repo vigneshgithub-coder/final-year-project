@@ -60,7 +60,7 @@ router.post('/user/signup', passport.authenticate('local.signup', {
             if(user.isSeller){
                 res.redirect('/admin');
             } else {
-                res.redirect('/user/order-history');
+                res.redirect('/');
             }
         });
     }
@@ -84,7 +84,7 @@ router.post('/user/signin', passport.authenticate('local.signin', {
             if(user.isSeller){
                 res.redirect('/admin');
             } else {
-                res.redirect('/user/order-history');
+                res.redirect('/');
             }
         });
     }
