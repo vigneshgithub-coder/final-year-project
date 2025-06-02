@@ -17,7 +17,7 @@ An Online E-commerce website for medicines.
         Login using
         `email: admin@admin.com`  `password: admin`
     ### or
-        on signup enter admin code = `"secretcode"`
+        on signup enter admin code = `"admin"`
 
 - ## For user side
         signup using your valid email-id to recieve order confirmation email.
@@ -72,9 +72,9 @@ An Online E-commerce website for medicines.
 
 
 ## To run the project locally
-* clone this Repository by `git clone https://github.com/shahshubh/medEasy.git`.
+* clone this Repository by `git clone https://github.com/vigneshgithub-coder/final-year-project/tree/main`.
 * Inside root directory create a .env file and add these
-    - `DATABASEURL=mongodb+srv://shubh:medeasy@cluster0-tikja.mongodb.net/test?retryWrites=true&w=majority`
+    - `DATABASEURL=mongodb+srv://travel-agency:Vignesh%4022@cluster0.ialfq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
     - `MAILPASS=your_mail_pass`
         - Also change user field to your email id in routes/shoppingcart.js file on Line 177 and Line 250 .
     - `CAPTCHASECRETKEY=your_secret_key`
